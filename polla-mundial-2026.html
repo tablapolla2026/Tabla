@@ -691,6 +691,11 @@ function renderFavorites() {
   }
   favSection.style.display = 'block';
   var favParticipants = participants.filter(function(p) { return favs.indexOf(p.nombre) > -1; });
+  if (VIEW_MODE === 'ganador') {
+    favParticipants = favParticipants.slice().sort(function(a, b) {
+      return getAcierto(b) - getAcierto(a);
+    });
+  }
   favResults.innerHTML = favParticipants.map(function(p) { return buildCard(p, ''); }).join('');
 }
 
