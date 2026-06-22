@@ -30,6 +30,20 @@
   .header-count { font-size: 12px; color: #a8e6a8; margin-top: 4px; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
   .scorer-item { display: flex; align-items: center; gap: 4px; }
   .search-wrap { position: relative; max-width: 420px; margin: 10px auto 0; }
+  .view-switch {
+    display: flex; max-width: 420px; margin: 8px auto 0;
+    background: #000; border-radius: 30px;
+    padding: 4px; border: none;
+  }
+  .view-switch button {
+    flex: 1; padding: 8px 0; border-radius: 26px; border: none;
+    cursor: pointer; font-size: 12px; font-weight: 700;
+    background: transparent; color: #888; transition: all 0.25s ease;
+    font-family: inherit;
+  }
+  .view-switch button.active { background: #3dba3d; color: #000; }
+  .pct { color: #7cc8ff; }
+  .ganador-pct { color: #f0a040; }
   .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: #6dbf6d; pointer-events: none; }
   #search {
     width: 100%; padding: 10px 42px 10px 42px;
@@ -270,12 +284,17 @@
 <div class="header">
   <div class="header-sub">⚽ Tabla Clasificatoria</div>
   <div class="header-title">POLLA MUNDIAL 2026</div>
-  <div class="header-update">🕐 Actualizado: México 1-0 Corea del Sur · 18 Jun 2026 · 23:07 hrs Chile</div>
+  <div class="header-update">🕐 Actualizado: Nueva Zelanda 1-3 Egipto · 22 Jun 2026 · 10:11 hrs Chile</div>
 
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input type="text" id="search" placeholder="Busca tu nombre...">
     <button id="clear-btn">✕</button>
+  </div>
+
+  <div class="view-switch">
+    <button id="btn-puntos" class="active">🏆 Puntos</button>
+    <button id="btn-ganador">✅ % Acierto</button>
   </div>
 </div>
 
@@ -295,11 +314,11 @@
   <div class="match-box">
     <div class="match-title">⚽ Partidos Mundial 2026</div>
     <div class="match-nums">
-      <div class="match-num"><div class="big">28</div><div class="lbl">Jugados</div></div>
-      <div class="match-num"><div class="big" style="color:#f0c040">76</div><div class="lbl">Restantes</div></div>
+      <div class="match-num"><div class="big">40</div><div class="lbl">Jugados</div></div>
+      <div class="match-num"><div class="big" style="color:#f0c040">64</div><div class="lbl">Restantes</div></div>
       <div class="match-num"><div class="big">104</div><div class="lbl">Total</div></div>
     </div>
-    <div class="match-bar-bg"><div class="match-bar-fill" style="width:26.9%"></div></div>
+    <div class="match-bar-bg"><div class="match-bar-fill" style="width:38.5%"></div></div>
   </div>
 </div>
 
@@ -315,257 +334,257 @@
 <script>
 const participants = [
   // PAGE 1
-  {pos:1,  nombre:'Francisco "Frafri" Undurraga',  puntos:40, exactos:7},
-  {pos:2,  nombre:"Felipe Amenábar",               puntos:34, exactos:6},
-  {pos:3,  nombre:"Sebastián Valdivieso",          puntos:33, exactos:6},
-  {pos:4,  nombre:"Pablo Mella",                   puntos:32, exactos:5},
-  {pos:5,  nombre:"Federico Egaña",                puntos:31, exactos:5},
-  {pos:5,  nombre:"Maximiliano Werner",            puntos:31, exactos:5},
-  {pos:5,  nombre:"Familia Acchiardo Errázuriz",   puntos:31, exactos:5},
-  {pos:8,  nombre:"Maximiliano Cabezas",           puntos:30, exactos:5},
-  {pos:8,  nombre:"Gracia Rivera",                 puntos:30, exactos:5},
-  {pos:8,  nombre:"Cristóbal Orpis",               puntos:30, exactos:5},
-  {pos:8,  nombre:"Patricia Bizzarri",             puntos:30, exactos:5},
-  {pos:12, nombre:"Benjamín Valdivieso",           puntos:29, exactos:4},
-  {pos:12, nombre:"Filipa Cabezas",                puntos:29, exactos:4},
-  {pos:12, nombre:"Carolina Espinosa",             puntos:29, exactos:4},
-  {pos:15, nombre:"Juan José Willumsen",           puntos:28, exactos:5},
-  {pos:16, nombre:"Ignacio Donoso Escobar",        puntos:28, exactos:4},
-  {pos:16, nombre:"Santiago Orpis",                puntos:28, exactos:4},
-  {pos:16, nombre:"Martín Rivera Ibáñez",          puntos:28, exactos:4},
-  {pos:16, nombre:"José Luis Benavente",           puntos:28, exactos:4},
-  {pos:20, nombre:"Ignacio Guzmán",                puntos:27, exactos:4},
-  {pos:20, nombre:"José Manuel Allende",           puntos:27, exactos:4},
-  {pos:20, nombre:"Alfonso Astudillo",             puntos:27, exactos:4},
-  {pos:20, nombre:"Héctor Godoy",                  puntos:27, exactos:4},
-  {pos:20, nombre:"Belén Calvo",                   puntos:27, exactos:4},
-  {pos:20, nombre:"Pedro Valenzuela",              puntos:27, exactos:4},
-  {pos:20, nombre:"Martín Zimmermann",             puntos:27, exactos:4},
-  {pos:20, nombre:"Benjamín Rioseco",              puntos:27, exactos:4},
-  {pos:20, nombre:"Jaime Fernández",               puntos:27, exactos:4},
-  {pos:29, nombre:"Pedro Lund",                    puntos:27, exactos:3},
-  {pos:29, nombre:"Nicolás Jaramillo",             puntos:27, exactos:3},
-  {pos:31, nombre:"Arturo Covarrubias",            puntos:26, exactos:4},
-  {pos:31, nombre:"Nicolás Birkner",               puntos:26, exactos:4},
-  {pos:31, nombre:"Andrés Rochefort",              puntos:26, exactos:4},
-  {pos:31, nombre:"Lucas Torres",                  puntos:26, exactos:4},
-  {pos:31, nombre:"Eida Di Baggio",                puntos:26, exactos:4},
-  {pos:31, nombre:"Amelia Gómez Pérez",            puntos:26, exactos:4},
-  {pos:31, nombre:"Santiago Kaulen",               puntos:26, exactos:4},
-  {pos:38, nombre:"Francisco Salinas Llodrá",      puntos:26, exactos:3},
-  {pos:38, nombre:"Vicente León Maffei",           puntos:26, exactos:3},
-  {pos:38, nombre:"Antonio Martínez",              puntos:26, exactos:3},
-  {pos:41, nombre:"Renzo Pecchenino",              puntos:25, exactos:4},
-  {pos:42, nombre:"Sebastián Corthorn",            puntos:25, exactos:3},
-  {pos:42, nombre:"María Francisca Valdivieso",    puntos:25, exactos:3},
-  {pos:42, nombre:"Felipe Eterovic",               puntos:25, exactos:3},
-  {pos:42, nombre:"Luis Eguiguren",                puntos:25, exactos:3},
-  {pos:42, nombre:"Antonio Waugh",                 puntos:25, exactos:3},
-  {pos:42, nombre:"Juan Andrés Valdés",            puntos:25, exactos:3},
-  {pos:42, nombre:"Santiago Olivos",               puntos:25, exactos:3},
-  {pos:42, nombre:"José Ignacio Batlle",           puntos:25, exactos:3},
-  {pos:42, nombre:"Kenneth Werner",                puntos:25, exactos:3},
-  {pos:42, nombre:"Vladimiro Mimica",              puntos:25, exactos:3},
-  {pos:42, nombre:"Matías Coddou",                 puntos:25, exactos:3},
-  {pos:42, nombre:"Juan Francisco Rivas Alvarado", puntos:25, exactos:3},
-  {pos:42, nombre:"José Tomás Aspillaga N°2",      puntos:25, exactos:3},
-  {pos:42, nombre:"Matías Achondo",                puntos:25, exactos:3},
-  {pos:56, nombre:"Benjamín León",                 puntos:24, exactos:4},
-  {pos:56, nombre:"Fernando Malatesta",            puntos:24, exactos:4},
-  {pos:56, nombre:"Manuel Moya",                   puntos:24, exactos:4},
-  {pos:59, nombre:"Alejandro Guzmán",              puntos:24, exactos:3},
-  {pos:59, nombre:"Diego Espinoza",                puntos:24, exactos:3},
-  {pos:59, nombre:"Tomás Valenzuela",              puntos:24, exactos:3},
-  {pos:59, nombre:"Iker Cabargas",                 puntos:24, exactos:3},
-  {pos:59, nombre:"Tomás Rivera",                  puntos:24, exactos:3},
-  {pos:59, nombre:"Juan Carlos Prieto",            puntos:24, exactos:3},
-  {pos:59, nombre:"Gregorio Sepúlveda",            puntos:24, exactos:3},
-  {pos:59, nombre:"Pablo Vergara Delgadillo",      puntos:24, exactos:3},
-  {pos:59, nombre:"Aníbal Huneeus",                puntos:24, exactos:3},
-  {pos:59, nombre:"Javier Jara",                   puntos:24, exactos:3},
-  {pos:59, nombre:"Isabel Barra",                  puntos:24, exactos:3},
-  {pos:59, nombre:"Rolo Razeto",                   puntos:24, exactos:3},
-  {pos:59, nombre:"Juan Pablo Edwards",            puntos:24, exactos:3},
-  {pos:59, nombre:"Nicolás Van Sint Jan",          puntos:24, exactos:3},
-  {pos:59, nombre:"Ulises Urdaneta",               puntos:24, exactos:3},
-  {pos:59, nombre:"Clara Solís de Ovando",         puntos:24, exactos:3},
-  {pos:59, nombre:"Andrea Munizaga",               puntos:24, exactos:3},
-  {pos:59, nombre:"Camila Beckdorf",               puntos:24, exactos:3},
-  {pos:77, nombre:"Mateo Del Solar",               puntos:24, exactos:2},
-  {pos:77, nombre:"Rodrigo Valle",                 puntos:24, exactos:2},
-  {pos:77, nombre:"Nicolás Correa Gillet",         puntos:24, exactos:2},
-  {pos:77, nombre:"Marcela Llodrá",                puntos:24, exactos:2},
-  {pos:81, nombre:"Santiago Romero",               puntos:23, exactos:4},
-  {pos:82, nombre:"Felipe Acuña Arellano",         puntos:23, exactos:3},
-  {pos:82, nombre:"Baltazar Salas",                puntos:23, exactos:3},
-  {pos:82, nombre:"Valentina Vodopic",             puntos:23, exactos:3},
-  {pos:82, nombre:"Joaquín Trejo",                 puntos:23, exactos:3},
-  {pos:82, nombre:"José Tomás León",               puntos:23, exactos:3},
-  {pos:82, nombre:"Federico Brieba",               puntos:23, exactos:3},
-  {pos:82, nombre:"Gonzalo Contreras Moral",       puntos:23, exactos:3},
-  {pos:82, nombre:"Soledad Vergara",               puntos:23, exactos:3},
-  {pos:82, nombre:"Rodrigo Mujica",                puntos:23, exactos:3},
-  {pos:82, nombre:"Martín Del Solar",              puntos:23, exactos:3},
-  {pos:82, nombre:"Hernán Johnson",                puntos:23, exactos:3},
-  {pos:82, nombre:"José Ignacio Jara",             puntos:23, exactos:3},
-  {pos:82, nombre:"Agustín Sánchez",               puntos:23, exactos:3},
-  {pos:95, nombre:"José Manuel Pérez",             puntos:23, exactos:2},
-  {pos:96, nombre:"Daniela Bielenberg",            puntos:22, exactos:4},
-  {pos:97, nombre:"Nicolás Valdivieso",            puntos:22, exactos:3},
-  {pos:97, nombre:"Nicolás Pérez",                 puntos:22, exactos:3},
-  {pos:97, nombre:"Colomba Lavín Valdés",          puntos:22, exactos:3},
-  {pos:97, nombre:"Mauricio Barra",                puntos:22, exactos:3},
-  {pos:97, nombre:"Alan Turner",                   puntos:22, exactos:3},
-  {pos:102, nombre:"Javier Pinto Bontá",           puntos:22, exactos:2},
-  {pos:102, nombre:"Diego Maturana",               puntos:22, exactos:2},
-  {pos:102, nombre:"José Tomás Campos",            puntos:22, exactos:2},
-  {pos:102, nombre:"Andrés Valdivieso Undurraga",  puntos:22, exactos:2},
-  {pos:102, nombre:"Ignacio Morgan",               puntos:22, exactos:2},
-  {pos:102, nombre:"Tomás Jara",                   puntos:22, exactos:2},
-  {pos:102, nombre:"Tomás Kaulen",                 puntos:22, exactos:2},
+  {pos:1,  nombre:'Francisco "Frafri" Undurraga',  puntos:46, exactos:7},
+  {pos:1,  nombre:"Pablo Mella",                   puntos:46, exactos:7},
+  {pos:1,  nombre:"Benjamín Valdivieso",           puntos:46, exactos:7},
+  {pos:4,  nombre:"Ignacio Donoso Escobar",        puntos:45, exactos:7},
+  {pos:4,  nombre:"Tomás Rivera",                  puntos:45, exactos:7},
+  {pos:4,  nombre:"Maximiliano Werner",            puntos:45, exactos:7},
+  {pos:7,  nombre:"José Manuel Allende",           puntos:44, exactos:7},
+  {pos:7,  nombre:"Cristóbal Orpis",               puntos:44, exactos:7},
+  {pos:9,  nombre:"Alfonso Astudillo",             puntos:43, exactos:7},
+  {pos:9,  nombre:"Felipe Amenábar",               puntos:43, exactos:7},
+  {pos:11, nombre:"Antonio Waugh",                 puntos:42, exactos:6},
+  {pos:12, nombre:"Juan Pablo Edwards",            puntos:41, exactos:6},
+  {pos:12, nombre:"Patricia Bizzarri",             puntos:41, exactos:6},
+  {pos:12, nombre:"Gracia Rivera",                 puntos:41, exactos:6},
+  {pos:12, nombre:"Héctor Godoy",                  puntos:41, exactos:6},
+  {pos:12, nombre:"Benjamín Rioseco",              puntos:41, exactos:6},
+  {pos:12, nombre:"Juan Carlos Prieto",            puntos:41, exactos:6},
+  {pos:12, nombre:"Arturo Covarrubias",            puntos:41, exactos:6},
+  {pos:19, nombre:"Familia Acchiardo Errázuriz",   puntos:40, exactos:6},
+  {pos:19, nombre:"Santiago Kaulen",               puntos:40, exactos:6},
+  {pos:19, nombre:"José Tomás León",               puntos:40, exactos:6},
+  {pos:19, nombre:"Andrea Munizaga",               puntos:40, exactos:6},
+  {pos:19, nombre:"Matías Romero",                 puntos:40, exactos:6},
+  {pos:24, nombre:"Vicente León Maffei",           puntos:40, exactos:5},
+  {pos:24, nombre:"José Ignacio Batlle",           puntos:40, exactos:5},
+  {pos:24, nombre:"Pedro Lund",                    puntos:40, exactos:5},
+  {pos:27, nombre:"Juan José Willumsen",           puntos:39, exactos:7},
+  {pos:28, nombre:"Andrés Rochefort",              puntos:39, exactos:6},
+  {pos:28, nombre:"Amelia Gómez Pérez",            puntos:39, exactos:6},
+  {pos:28, nombre:"Mauricio Barra",                puntos:39, exactos:6},
+  {pos:31, nombre:"Federico Egaña",                puntos:39, exactos:5},
+  {pos:31, nombre:"Luis Eguiguren",                puntos:39, exactos:5},
+  {pos:31, nombre:"José Manuel Pérez",             puntos:39, exactos:5},
+  {pos:34, nombre:"Nicolás Jaramillo",             puntos:39, exactos:4},
+  {pos:35, nombre:"Sebastián Valdivieso",          puntos:38, exactos:6},
+  {pos:35, nombre:"Manuel Moya",                   puntos:38, exactos:6},
+  {pos:35, nombre:"Fernando Malatesta",            puntos:38, exactos:6},
+  {pos:38, nombre:"Jaime Fernández",               puntos:38, exactos:5},
+  {pos:38, nombre:"Clara Solís de Ovando",         puntos:38, exactos:5},
+  {pos:38, nombre:"José Luis Benavente",           puntos:38, exactos:5},
+  {pos:38, nombre:"Vicente Marín",                 puntos:38, exactos:5},
+  {pos:38, nombre:"Joaquín Trejo",                 puntos:38, exactos:5},
+  {pos:38, nombre:"Pedro Valenzuela",              puntos:38, exactos:5},
+  {pos:38, nombre:"Alejandro Guzmán",              puntos:38, exactos:5},
+  {pos:38, nombre:"Camila Beckdorf",               puntos:38, exactos:5},
+  {pos:38, nombre:"Martín Zimmermann",             puntos:38, exactos:5},
+  {pos:38, nombre:"Rolo Razeto",                   puntos:38, exactos:5},
+  {pos:38, nombre:"Pedro Pablo Alarcón",           puntos:38, exactos:5},
+  {pos:49, nombre:"Francisco Salinas Llodrá",      puntos:38, exactos:4},
+  {pos:50, nombre:"Ignacio Edwards",               puntos:37, exactos:5},
+  {pos:50, nombre:"Aníbal Huneeus",                puntos:37, exactos:5},
+  {pos:50, nombre:"Martín Rivera Ibáñez",          puntos:37, exactos:5},
+  {pos:50, nombre:"Matilde Torrebianca Calvo",     puntos:37, exactos:5},
+  {pos:50, nombre:"Nicolás Birkner",               puntos:37, exactos:5},
+  {pos:50, nombre:"Valentina Vodopic",             puntos:37, exactos:5},
+  {pos:50, nombre:"Eida Di Baggio",                puntos:37, exactos:5},
+  {pos:57, nombre:"Antonio Martínez",              puntos:37, exactos:4},
+  {pos:58, nombre:"Santiago Romero",               puntos:36, exactos:6},
+  {pos:59, nombre:"Felipe Acuña Arellano",         puntos:36, exactos:5},
+  {pos:59, nombre:"Tomás Lavín Barros",            puntos:36, exactos:5},
+  {pos:59, nombre:"Maximiliano Cabezas",           puntos:36, exactos:5},
+  {pos:59, nombre:"Rodrigo Mujica",                puntos:36, exactos:5},
+  {pos:59, nombre:"José Ignacio Jara",             puntos:36, exactos:5},
+  {pos:64, nombre:"Carolina Espinosa",             puntos:36, exactos:4},
+  {pos:64, nombre:"Santiago Orpis",                puntos:36, exactos:4},
+  {pos:64, nombre:"Santiago Olivos",               puntos:36, exactos:4},
+  {pos:64, nombre:"Matías Coddou",                 puntos:36, exactos:4},
+  {pos:64, nombre:"José Tomás Aspillaga N°2",      puntos:36, exactos:4},
+  {pos:64, nombre:"Isabel Barra",                  puntos:36, exactos:4},
+  {pos:64, nombre:"Sebastián Corthorn",            puntos:36, exactos:4},
+  {pos:71, nombre:"Nicolás Fell",                  puntos:35, exactos:5},
+  {pos:72, nombre:"Felipe Eterovic",               puntos:35, exactos:4},
+  {pos:72, nombre:"Filipa Cabezas",                puntos:35, exactos:4},
+  {pos:72, nombre:"Domingo Narbona",               puntos:35, exactos:4},
+  {pos:72, nombre:"José Tomás Aspillaga N°1",      puntos:35, exactos:4},
+  {pos:72, nombre:"Clemente Rivera",               puntos:35, exactos:4},
+  {pos:72, nombre:"Gracia Solís de Ovando",        puntos:35, exactos:4},
+  {pos:72, nombre:"Enrique Mena",                  puntos:35, exactos:4},
+  {pos:72, nombre:"Ulises Urdaneta",               puntos:35, exactos:4},
+  {pos:72, nombre:"Manuela Donoso",                puntos:35, exactos:4},
+  {pos:72, nombre:"Luis Borgoño",                  puntos:35, exactos:4},
+  {pos:72, nombre:"Clemente Allende",              puntos:35, exactos:4},
+  {pos:72, nombre:"Francisca Pellegrini",          puntos:35, exactos:4},
+  {pos:72, nombre:"Fernando Gómez Vial",           puntos:35, exactos:4},
+  {pos:72, nombre:"Lucía Solís de Ovando",         puntos:35, exactos:4},
   // PAGE 2
-  {pos:109, nombre:"Lorena Pino Garcés",           puntos:21, exactos:3},
-  {pos:109, nombre:"Matías Pinnau",                puntos:21, exactos:3},
-  {pos:109, nombre:"Felipe Vásquez",               puntos:21, exactos:3},
-  {pos:112, nombre:"Francisca Pellegrini",         puntos:21, exactos:2},
-  {pos:112, nombre:"Romano Tempesta",              puntos:21, exactos:2},
-  {pos:112, nombre:"Tomás Álvarez Urzúa",          puntos:21, exactos:2},
-  {pos:112, nombre:"Pablo De La Fuente",           puntos:21, exactos:2},
-  {pos:112, nombre:"Alonso Cid",                   puntos:21, exactos:2},
-  {pos:112, nombre:"Clemente Rivera",              puntos:21, exactos:2},
-  {pos:112, nombre:"Santiago Charry",              puntos:21, exactos:2},
-  {pos:112, nombre:"Matías Vidal",                 puntos:21, exactos:2},
-  {pos:112, nombre:"Domingo Narbona",              puntos:21, exactos:2},
-  {pos:112, nombre:"Rodrigo Borgoño",              puntos:21, exactos:2},
-  {pos:112, nombre:"Juan Pablo Vergara",           puntos:21, exactos:2},
-  {pos:112, nombre:"José Tomás Aspillaga N°1",     puntos:21, exactos:2},
-  {pos:112, nombre:"Vicente Marín",                puntos:21, exactos:2},
-  {pos:112, nombre:"Fernando Gómez Vial",          puntos:21, exactos:2},
-  {pos:112, nombre:"Lucía Solís de Ovando",        puntos:21, exactos:2},
-  {pos:112, nombre:"José Razeto Beckdorf",         puntos:21, exactos:2},
-  {pos:112, nombre:"Santiago Vergara",             puntos:21, exactos:2},
-  {pos:112, nombre:"Gracia Solís de Ovando",       puntos:21, exactos:2},
-  {pos:112, nombre:"Luis Borgoño",                 puntos:21, exactos:2},
-  {pos:112, nombre:"Manuela Donoso",               puntos:21, exactos:2},
-  {pos:132, nombre:"Carlos Silva Alliende",        puntos:21, exactos:1},
-  {pos:133, nombre:"Pedro Burgos Gómez",           puntos:20, exactos:3},
-  {pos:134, nombre:"Ignacio Edwards",              puntos:20, exactos:2},
-  {pos:134, nombre:"José Ignacio Mena",            puntos:20, exactos:2},
-  {pos:134, nombre:"Lucas Montes",                 puntos:20, exactos:2},
-  {pos:134, nombre:"Matías Bisso",                 puntos:20, exactos:2},
-  {pos:134, nombre:"Santiago Marín",               puntos:20, exactos:2},
-  {pos:134, nombre:"Juan Pablo Mena",              puntos:20, exactos:2},
-  {pos:134, nombre:"Cristóbal Messenger",          puntos:20, exactos:2},
-  {pos:134, nombre:"Cristián Silva",               puntos:20, exactos:2},
-  {pos:134, nombre:"José Alfredo López",           puntos:20, exactos:2},
-  {pos:134, nombre:"Francisco Razeto",             puntos:20, exactos:2},
-  {pos:134, nombre:"Catalina Burgos",              puntos:20, exactos:2},
-  {pos:134, nombre:'Alfonso "Poncho" Undurraga',   puntos:20, exactos:2},
-  {pos:134, nombre:"Nicolás Domínguez",            puntos:20, exactos:2},
-  {pos:134, nombre:"Pedro Pablo Alarcón",          puntos:20, exactos:2},
-  {pos:134, nombre:"Antonia Kaulen",               puntos:20, exactos:2},
-  {pos:134, nombre:"Enrique Mena",                 puntos:20, exactos:2},
-  {pos:134, nombre:"Tomás Lavín Barros",           puntos:20, exactos:2},
-  {pos:134, nombre:"Cristián Zañartu",             puntos:20, exactos:2},
-  {pos:134, nombre:"Fernando Poch",                puntos:20, exactos:2},
-  {pos:134, nombre:"León Poch",                    puntos:20, exactos:2},
-  {pos:134, nombre:"Ariel Lehmann (Bupita Team)",  puntos:20, exactos:2},
-  {pos:134, nombre:"Matilde Torrebianca Calvo",    puntos:20, exactos:2},
-  {pos:134, nombre:"Matías Romero",                puntos:20, exactos:2},
-  {pos:134, nombre:"Eduardo Ellis",                puntos:20, exactos:2},
-  {pos:134, nombre:"Gregorio Undurraga",           puntos:20, exactos:2},
-  {pos:134, nombre:"Diego Soto Lorca",             puntos:20, exactos:2},
-  {pos:134, nombre:"Facundo Achondo",              puntos:20, exactos:2},
-  {pos:161, nombre:"Javiera Gómez Vial",           puntos:20, exactos:1},
-  {pos:161, nombre:"Fernando Gómez Reyes",         puntos:20, exactos:1},
-  {pos:163, nombre:"Pedro Muñoz Silva",            puntos:19, exactos:2},
-  {pos:163, nombre:"Clemente Gómez Pérez",         puntos:19, exactos:2},
-  {pos:163, nombre:"Nicolás Fell",                 puntos:19, exactos:2},
-  {pos:163, nombre:"Patricio Borgoño",             puntos:19, exactos:2},
-  {pos:163, nombre:"Diego Peña",                   puntos:19, exactos:2},
-  {pos:163, nombre:"Francisco Borgoño",            puntos:19, exactos:2},
-  {pos:163, nombre:"Cristóbal Edwards",            puntos:19, exactos:2},
-  {pos:163, nombre:"Guillermo Jara",               puntos:19, exactos:2},
-  {pos:163, nombre:"José Miguel Undurraga",        puntos:19, exactos:2},
-  {pos:163, nombre:"Ricardo Orchard",              puntos:19, exactos:2},
-  {pos:163, nombre:"José Miguel Schulz",           puntos:19, exactos:2},
-  {pos:163, nombre:"Eduardo Herreros",             puntos:19, exactos:2},
-  {pos:163, nombre:"Cristián Olivos",              puntos:19, exactos:2},
-  {pos:163, nombre:"Pablo Monteverde",             puntos:19, exactos:2},
-  {pos:163, nombre:"Juan Pablo Bravo",             puntos:19, exactos:2},
-  {pos:163, nombre:"Daniel Pérez Dibarrart",       puntos:19, exactos:2},
-  {pos:163, nombre:"Paulina González",             puntos:19, exactos:2},
-  {pos:180, nombre:"Patricio Huidobro",            puntos:18, exactos:2},
-  {pos:180, nombre:"Cristóbal Olivos Poch",        puntos:18, exactos:2},
-  {pos:182, nombre:"José Tomás Barriga",           puntos:18, exactos:1},
-  {pos:182, nombre:"Diego Rivera",                 puntos:18, exactos:1},
-  {pos:182, nombre:"Juan Esteban Rivas Diban",     puntos:18, exactos:1},
-  {pos:182, nombre:"Santiago Respaldiza",          puntos:18, exactos:1},
-  {pos:182, nombre:"Tomás Varela",                 puntos:18, exactos:1},
-  {pos:182, nombre:"José Ignacio Del Solar",       puntos:18, exactos:1},
-  {pos:182, nombre:"María Eugenia Vial y Samba",   puntos:18, exactos:1},
-  {pos:182, nombre:"Javiera Brito",                puntos:18, exactos:1},
-  {pos:182, nombre:"León Cifuentes",               puntos:18, exactos:1},
-  {pos:182, nombre:"Diego Kaulen",                 puntos:18, exactos:1},
-  {pos:182, nombre:"Carmen Gloria Dibarrart",      puntos:18, exactos:1},
-  {pos:182, nombre:"Vicente Narbona",              puntos:18, exactos:1},
-  {pos:182, nombre:"Javier Narbona",               puntos:18, exactos:1},
-  {pos:182, nombre:"Diego Martínez",               puntos:18, exactos:1},
-  {pos:182, nombre:"Clemente Allende",             puntos:18, exactos:1},
+  {pos:72, nombre:"Nicolás Van Sint Jan",          puntos:35, exactos:4},
+  {pos:72, nombre:"Lucas Torres",                  puntos:35, exactos:4},
+  {pos:72, nombre:"Hernán Johnson",                puntos:35, exactos:4},
+  {pos:72, nombre:"Soledad Vergara",               puntos:35, exactos:4},
+  {pos:90, nombre:"Nicolás Correa Gillet",         puntos:35, exactos:3},
+  {pos:90, nombre:"Carlos Silva Alliende",         puntos:35, exactos:3},
+  {pos:92, nombre:"Benjamín León",                 puntos:34, exactos:5},
+  {pos:93, nombre:"Kenneth Werner",                puntos:34, exactos:4},
+  {pos:93, nombre:"Gonzalo Contreras Moral",       puntos:34, exactos:4},
+  {pos:93, nombre:"Diego Martínez",                puntos:34, exactos:4},
+  {pos:93, nombre:"Ignacio Guzmán",                puntos:34, exactos:4},
+  {pos:93, nombre:"Iker Cabargas",                 puntos:34, exactos:4},
+  {pos:93, nombre:"Pablo Vergara Delgadillo",      puntos:34, exactos:4},
+  {pos:93, nombre:"Pablo De La Fuente",            puntos:34, exactos:4},
+  {pos:93, nombre:"Agustín Sánchez",               puntos:34, exactos:4},
+  {pos:93, nombre:"Santiago Marín",                puntos:34, exactos:4},
+  {pos:93, nombre:"Eduardo Ellis",                 puntos:34, exactos:4},
+  {pos:93, nombre:"Rosario Gómez Vial",            puntos:34, exactos:4},
+  {pos:93, nombre:"Tomás Valenzuela",              puntos:34, exactos:4},
+  {pos:93, nombre:"Francisco Razeto",              puntos:34, exactos:4},
+  {pos:93, nombre:"Nicolás Valdivieso",            puntos:34, exactos:4},
+  {pos:107, nombre:"Mateo Del Solar",              puntos:34, exactos:3},
+  {pos:108, nombre:"Daniela Bielenberg",           puntos:33, exactos:6},
+  {pos:109, nombre:"Renzo Pecchenino",             puntos:33, exactos:5},
+  {pos:109, nombre:"Felipe Vásquez",               puntos:33, exactos:5},
+  {pos:111, nombre:"Paulina González",             puntos:33, exactos:4},
+  {pos:111, nombre:"Fernando Poch",                puntos:33, exactos:4},
+  {pos:111, nombre:"Belén Calvo",                  puntos:33, exactos:4},
+  {pos:111, nombre:"Martín Del Solar",             puntos:33, exactos:4},
+  {pos:111, nombre:"Ricardo Orchard",              puntos:33, exactos:4},
+  {pos:111, nombre:"Pablo Monteverde",             puntos:33, exactos:4},
+  {pos:111, nombre:"Matías Pinnau",                puntos:33, exactos:4},
+  {pos:118, nombre:"Vladimiro Mimica",             puntos:33, exactos:3},
+  {pos:118, nombre:"Ignacio Morgan",               puntos:33, exactos:3},
+  {pos:118, nombre:"Matías Achondo",               puntos:33, exactos:3},
+  {pos:118, nombre:"Rodrigo Borgoño",              puntos:33, exactos:3},
+  {pos:118, nombre:"María Francisca Valdivieso",   puntos:33, exactos:3},
+  {pos:118, nombre:"Tomás Varela",                 puntos:33, exactos:3},
+  {pos:124, nombre:"Diego Peña",                   puntos:32, exactos:4},
+  {pos:124, nombre:"Juan Andrés Valdés",           puntos:32, exactos:4},
+  {pos:124, nombre:"Colomba Lavín Valdés",         puntos:32, exactos:4},
+  {pos:124, nombre:"Nicolás Pérez",                puntos:32, exactos:4},
+  {pos:124, nombre:"Rodrigo Heredia",              puntos:32, exactos:4},
+  {pos:124, nombre:"Rosario Aguayo",               puntos:32, exactos:4},
+  {pos:130, nombre:"Tomás Kaulen",                 puntos:32, exactos:3},
+  {pos:130, nombre:"Juan Francisco Rivas Alvarado",puntos:32, exactos:3},
+  {pos:130, nombre:"Diego Espinoza",               puntos:32, exactos:3},
+  {pos:130, nombre:"Juan Pablo Vergara",           puntos:32, exactos:3},
+  {pos:130, nombre:"Javier Narbona",               puntos:32, exactos:3},
+  {pos:130, nombre:"Baltazar Salas",               puntos:32, exactos:3},
+  {pos:130, nombre:"Santiago Charry",              puntos:32, exactos:3},
+  {pos:130, nombre:"Diego Kaulen",                 puntos:32, exactos:3},
+  {pos:130, nombre:"Andrés Valdivieso Undurraga",  puntos:32, exactos:3},
+  {pos:130, nombre:"León Cifuentes",               puntos:32, exactos:3},
+  {pos:140, nombre:"Rodrigo Valle",                puntos:32, exactos:2},
+  {pos:140, nombre:"Javiera Gómez Vial",           puntos:32, exactos:2},
+  {pos:142, nombre:"Magdalena Aninat",             puntos:31, exactos:4},
+  {pos:142, nombre:"Lorena Pino Garcés",           puntos:31, exactos:4},
+  {pos:144, nombre:"Santiago Vergara",             puntos:31, exactos:3},
+  {pos:144, nombre:"León Poch",                    puntos:31, exactos:3},
+  {pos:144, nombre:"Ariel Lehmann (Bupita Team)",  puntos:31, exactos:3},
+  {pos:144, nombre:"Matías Bisso",                 puntos:31, exactos:3},
+  {pos:144, nombre:"Cristián Zañartu",             puntos:31, exactos:3},
+  {pos:144, nombre:"José Alfredo López",           puntos:31, exactos:3},
+  {pos:144, nombre:"Diego Soto Lorca",             puntos:31, exactos:3},
+  {pos:144, nombre:"Benjamín Morandé",             puntos:31, exactos:3},
+  {pos:144, nombre:"Javiera Brito",                puntos:31, exactos:3},
+  {pos:153, nombre:"Pedro Burgos Gómez",           puntos:30, exactos:4},
+  {pos:154, nombre:"Alonso Cid",                   puntos:30, exactos:3},
+  {pos:154, nombre:"Tomás Jara",                   puntos:30, exactos:3},
+  {pos:154, nombre:"Javier Jara",                  puntos:30, exactos:3},
+  {pos:154, nombre:"Gregorio Sepúlveda",           puntos:30, exactos:3},
+  {pos:154, nombre:"Facundo Achondo",              puntos:30, exactos:3},
+  {pos:154, nombre:"José Ignacio Mena",            puntos:30, exactos:3},
+  {pos:154, nombre:"Federico Brieba",              puntos:30, exactos:3},
+  {pos:154, nombre:"Matías Valenzuela",            puntos:30, exactos:3},
+  {pos:154, nombre:"Matías Vidal",                 puntos:30, exactos:3},
+  {pos:154, nombre:"Pedro Muñoz Silva",            puntos:30, exactos:3},
+  {pos:154, nombre:"Paulo Tisi",                   puntos:30, exactos:3},
+  {pos:154, nombre:"José Miguel Undurraga",        puntos:30, exactos:3},
+  {pos:154, nombre:"Pedro Juan y Diego Borgoño",   puntos:30, exactos:3},
+  {pos:167, nombre:"Marcela Llodrá",               puntos:30, exactos:2},
+  {pos:168, nombre:"Juan Pablo Bravo",             puntos:29, exactos:3},
+  {pos:168, nombre:'Alfonso "Poncho" Undurraga',   puntos:29, exactos:3},
+  {pos:168, nombre:"Patricio Borgoño",             puntos:29, exactos:3},
+  {pos:168, nombre:"Rodrigo Andrade",              puntos:29, exactos:3},
+  {pos:168, nombre:"Eduardo Herreros",             puntos:29, exactos:3},
+  {pos:168, nombre:"Catalina Burgos",              puntos:29, exactos:3},
+  {pos:168, nombre:"Matías Fernández Calvo",       puntos:29, exactos:3},
   // PAGE 3
-  {pos:197, nombre:"Luciano Fischer",              puntos:17, exactos:2},
-  {pos:197, nombre:"Simón Benavente",              puntos:17, exactos:2},
-  {pos:197, nombre:"Santiago Verdugo Antúnez",     puntos:17, exactos:2},
-  {pos:200, nombre:"Francisco Valdés",             puntos:17, exactos:1},
-  {pos:200, nombre:"Francisco Rivas Diban",        puntos:17, exactos:1},
-  {pos:200, nombre:"Matías Corthorn",              puntos:17, exactos:1},
-  {pos:200, nombre:"Rosario Gómez Vial",           puntos:17, exactos:1},
-  {pos:200, nombre:"Jerónimo Lund",                puntos:17, exactos:1},
-  {pos:200, nombre:"Sebastián Rodríguez",          puntos:17, exactos:1},
-  {pos:200, nombre:"Amelia Birkner",               puntos:17, exactos:1},
-  {pos:200, nombre:"Felipe Benavente",             puntos:17, exactos:1},
-  {pos:200, nombre:"Benjamín Morandé",             puntos:17, exactos:1},
-  {pos:200, nombre:"Pelayo Ugarte",                puntos:17, exactos:1},
-  {pos:210, nombre:"Eduardo Serrano",              puntos:16, exactos:2},
-  {pos:211, nombre:"Alejandro Hales Espinosa",     puntos:16, exactos:1},
-  {pos:211, nombre:"Óscar Paredes",                puntos:16, exactos:1},
-  {pos:211, nombre:"Gerardo Egaña",                puntos:16, exactos:1},
-  {pos:211, nombre:"Florencia Díaz",               puntos:16, exactos:1},
-  {pos:211, nombre:"Paulo Tisi",                   puntos:16, exactos:1},
-  {pos:211, nombre:"Santiago Verdugo Pacheco",     puntos:16, exactos:1},
-  {pos:211, nombre:"Pedro Juan y Diego Borgoño",   puntos:16, exactos:1},
-  {pos:211, nombre:"Nicolás Díaz Fernández",       puntos:16, exactos:1},
-  {pos:211, nombre:"León Fernández de Castro",     puntos:16, exactos:1},
-  {pos:211, nombre:"Manuela Fontana",              puntos:16, exactos:1},
-  {pos:211, nombre:"Fernando Guerrero Rivas",      puntos:16, exactos:1},
-  {pos:211, nombre:"Cristóbal Domínguez",          puntos:16, exactos:1},
-  {pos:211, nombre:"Manuel Kaulen",                puntos:16, exactos:1},
-  {pos:211, nombre:"Magdalena Aninat",             puntos:16, exactos:1},
-  {pos:211, nombre:"Rosario Aguayo",               puntos:16, exactos:1},
-  {pos:211, nombre:"Aranza Lozano",                puntos:16, exactos:1},
-  {pos:211, nombre:"Matías Valenzuela",            puntos:16, exactos:1},
-  {pos:228, nombre:"Werne Núñez",                  puntos:16, exactos:0},
-  {pos:229, nombre:"Francisco Salinas Jaque",      puntos:15, exactos:2},
-  {pos:230, nombre:"Pedro Vergara",                puntos:15, exactos:1},
-  {pos:230, nombre:"Matías Fernández Calvo",       puntos:15, exactos:1},
-  {pos:230, nombre:"Joaquín Pérez Cifuentes",      puntos:15, exactos:1},
-  {pos:230, nombre:"Rodrigo Heredia",              puntos:15, exactos:1},
-  {pos:230, nombre:"Agustín Valenzuela",           puntos:15, exactos:1},
-  {pos:235, nombre:"Francisco Rioseco",            puntos:15, exactos:0},
-  {pos:235, nombre:"Jorge Novoa",                  puntos:15, exactos:0},
-  {pos:237, nombre:"Clemente González Ariztía",    puntos:14, exactos:1},
-  {pos:237, nombre:"Amilia Undurraga",             puntos:14, exactos:1},
-  {pos:239, nombre:"Magdalena Pérez Dibarrart",    puntos:14, exactos:0},
-  {pos:240, nombre:"Rodrigo Andrade",              puntos:13, exactos:0},
-  {pos:241, nombre:"Yoya Rodríguez",               puntos:12, exactos:1},
-  {pos:242, nombre:"Isabel Gómez Pérez",           puntos:12, exactos:1},
-  {pos:243, nombre:"Jorge Mascaró Vial",           puntos:12, exactos:0},
-  {pos:244, nombre:"Francisco Silva",              puntos:11, exactos:0},
-  {pos:245, nombre:"Tomás Mora",                   puntos:10, exactos:0},
-  {pos:246, nombre:"Bautista Achondo",             puntos:9,  exactos:0},
+  {pos:175, nombre:"Diego Maturana",               puntos:29, exactos:2},
+  {pos:175, nombre:"Javier Pinto Bontá",           puntos:29, exactos:2},
+  {pos:175, nombre:"José Tomás Campos",            puntos:29, exactos:2},
+  {pos:175, nombre:"Tomás Álvarez Urzúa",          puntos:29, exactos:2},
+  {pos:175, nombre:"José Razeto Beckdorf",         puntos:29, exactos:2},
+  {pos:175, nombre:"Carmen Gloria Dibarrart",      puntos:29, exactos:2},
+  {pos:175, nombre:"Vicente Narbona",              puntos:29, exactos:2},
+  {pos:175, nombre:"Santiago Respaldiza",          puntos:29, exactos:2},
+  {pos:183, nombre:"Nicolás Domínguez",            puntos:28, exactos:3},
+  {pos:183, nombre:"Antonia Kaulen",               puntos:28, exactos:3},
+  {pos:183, nombre:"Cristián Olivos",              puntos:28, exactos:3},
+  {pos:183, nombre:"Alan Turner",                  puntos:28, exactos:3},
+  {pos:187, nombre:"Diego Rivera",                 puntos:28, exactos:2},
+  {pos:187, nombre:"José Tomás Barriga",           puntos:28, exactos:2},
+  {pos:187, nombre:"Lucas Montes",                 puntos:28, exactos:2},
+  {pos:187, nombre:"Pelayo Ugarte",                puntos:28, exactos:2},
+  {pos:187, nombre:"Clemente Gómez Pérez",         puntos:28, exactos:2},
+  {pos:192, nombre:"Werne Núñez",                  puntos:28, exactos:1},
+  {pos:193, nombre:"Jerónimo Lund",                puntos:27, exactos:2},
+  {pos:193, nombre:"Sebastián Rodríguez",          puntos:27, exactos:2},
+  {pos:193, nombre:"Romano Tempesta",              puntos:27, exactos:2},
+  {pos:193, nombre:"Jorge Novoa",                  puntos:27, exactos:2},
+  {pos:193, nombre:"Cristián Silva",               puntos:27, exactos:2},
+  {pos:193, nombre:"Amelia Birkner",               puntos:27, exactos:2},
+  {pos:193, nombre:"Cristóbal Messenger",          puntos:27, exactos:2},
+  {pos:193, nombre:"Francisco Borgoño",            puntos:27, exactos:2},
+  {pos:193, nombre:"Daniel Pérez Dibarrart",       puntos:27, exactos:2},
+  {pos:193, nombre:"León Fernández de Castro",     puntos:27, exactos:2},
+  {pos:193, nombre:"Manuela Fontana",              puntos:27, exactos:2},
+  {pos:204, nombre:"Juan Pablo Mena",              puntos:26, exactos:2},
+  {pos:204, nombre:"Florencia Díaz",               puntos:26, exactos:2},
+  {pos:204, nombre:"Alejandro Hales Espinosa",     puntos:26, exactos:2},
+  {pos:204, nombre:"José Miguel Schulz",           puntos:26, exactos:2},
+  {pos:204, nombre:"Cristóbal Edwards",            puntos:26, exactos:2},
+  {pos:204, nombre:"Cristóbal Olivos Poch",        puntos:26, exactos:2},
+  {pos:204, nombre:"Matías Corthorn",              puntos:26, exactos:2},
+  {pos:204, nombre:"Agustín Valenzuela",           puntos:26, exactos:2},
+  {pos:212, nombre:"Juan Esteban Rivas Diban",     puntos:26, exactos:1},
+  {pos:212, nombre:"José Ignacio Del Solar",       puntos:26, exactos:1},
+  {pos:214, nombre:"Francisco Salinas Jaque",      puntos:25, exactos:3},
+  {pos:215, nombre:"Gregorio Undurraga",           puntos:25, exactos:2},
+  {pos:216, nombre:"María Eugenia Vial y Samba",   puntos:25, exactos:1},
+  {pos:216, nombre:"Francisco Rivas Diban",        puntos:25, exactos:1},
+  {pos:216, nombre:"Felipe Benavente",             puntos:25, exactos:1},
+  {pos:219, nombre:"Patricio Huidobro",            puntos:24, exactos:2},
+  {pos:219, nombre:"Manuel Kaulen",                puntos:24, exactos:2},
+  {pos:219, nombre:"Guillermo Jara",               puntos:24, exactos:2},
+  {pos:219, nombre:"Pedro Vergara",                puntos:24, exactos:2},
+  {pos:223, nombre:"Fernando Gómez Reyes",         puntos:24, exactos:1},
+  {pos:223, nombre:"Francisco Valdés",             puntos:24, exactos:1},
+  {pos:223, nombre:"Fernando Guerrero Rivas",      puntos:24, exactos:1},
+  {pos:226, nombre:"Eduardo Serrano",              puntos:23, exactos:2},
+  {pos:226, nombre:"Luciano Fischer",              puntos:23, exactos:2},
+  {pos:226, nombre:"Santiago Verdugo Antúnez",     puntos:23, exactos:2},
+  {pos:229, nombre:"Óscar Paredes",                puntos:23, exactos:1},
+  {pos:229, nombre:"Gerardo Egaña",                puntos:23, exactos:1},
+  {pos:229, nombre:"Nicolás Díaz Fernández",       puntos:23, exactos:1},
+  {pos:229, nombre:"Aranza Lozano",                puntos:23, exactos:1},
+  {pos:229, nombre:"Joaquín Pérez Cifuentes",      puntos:23, exactos:1},
+  {pos:234, nombre:"Francisco Rioseco",            puntos:23, exactos:0},
+  {pos:235, nombre:"Yoya Rodríguez",               puntos:22, exactos:2},
+  {pos:235, nombre:"Simón Benavente",              puntos:22, exactos:2},
+  {pos:237, nombre:"Santiago Verdugo Pacheco",     puntos:21, exactos:1},
+  {pos:237, nombre:"Cristóbal Domínguez",          puntos:21, exactos:1},
+  {pos:239, nombre:"Amilia Undurraga",             puntos:20, exactos:1},
+  {pos:239, nombre:"Clemente González Ariztía",    puntos:20, exactos:1},
+  {pos:239, nombre:"Jorge Mascaró Vial",           puntos:20, exactos:1},
+  {pos:242, nombre:"Magdalena Pérez Dibarrart",    puntos:20, exactos:0},
+  {pos:243, nombre:"Isabel Gómez Pérez",           puntos:19, exactos:1},
+  {pos:244, nombre:"Bautista Achondo",             puntos:18, exactos:1},
+  {pos:245, nombre:"Tomás Mora",                   puntos:17, exactos:1},
+  {pos:246, nombre:"Francisco Silva",              puntos:16, exactos:0},
 ];
 
-const MAX_PTS = 40;
+const MAX_PTS = 46;
 
 function getBg(pos) {
   // Gradiente dinamico: verde (1er lugar) -> amarillo -> rojo (ultimo lugar)
@@ -603,23 +622,39 @@ function highlight(nombre, q) {
   if (idx===-1) return nombre;
   return nombre.slice(0,idx)+'<mark>'+nombre.slice(idx,idx+q.length)+'</mark>'+nombre.slice(idx+q.length);
 }
+var VIEW_MODE = 'puntos';
+var PARTIDOS_JUGADOS = 40;
+
 function buildCard(p, q) {
-  const bg = getBg(p.pos);
-  const medal = getMedal(p.pos);
-  const badgeContent = medal
+  var bg = getBg(p.pos);
+  var medal = getMedal(p.pos);
+  var badgeContent = medal
     ? '<span class="medal">' + medal + '</span><span class="pos-num-sm">#' + p.pos + '</span>'
     : '<span class="pos-num">#' + p.pos + '</span>';
-  const badgeClass = medal ? 'pos-badge' : 'pos-badge no-medal';
-  const isFav = getFavorites().includes(p.nombre);
-  const starIcon = isFav ? '⭐' : '☆';
-  const safeName = p.nombre.replace(/'/g, "\\'");
+  var badgeClass = medal ? 'pos-badge' : 'pos-badge no-medal';
+  var isFav = getFavorites().includes(p.nombre);
+  var starIcon = isFav ? '⭐' : '☆';
+  var safeName = p.nombre.replace(/'/g, "\\'");
+
+  var soloGanador = p.puntos - 4 * p.exactos;
+  var totalAciertos = soloGanador + p.exactos;
+  var pctAcierto = Math.round(totalAciertos / PARTIDOS_JUGADOS * 100);
+
+  var statsHtml;
+  if (VIEW_MODE === 'puntos') {
+    statsHtml =
+      '<div class="stat"><div class="stat-val pts">' + p.puntos + '</div><div class="stat-label">pts</div></div>' +
+      '<div class="stat"><div class="stat-val exactos">' + p.exactos + '</div><div class="stat-label">exactos</div></div>';
+  } else {
+    statsHtml =
+      '<div class="stat"><div class="stat-val ganador-pct">' + pctAcierto + '%</div><div class="stat-label">%</div></div>' +
+      '<div class="stat"><div class="stat-val exactos">' + totalAciertos + '</div><div class="stat-label">de ' + PARTIDOS_JUGADOS + '</div></div>';
+  }
+
   return '<div class="card"><div class="card-top">' +
     '<div class="' + badgeClass + '" style="background:' + bg + '">' + badgeContent + '</div>' +
     '<div class="card-name">' + highlight(p.nombre, q) + '</div>' +
-    '<div class="card-stats">' +
-      '<div class="stat"><div class="stat-val pts">' + p.puntos + '</div><div class="stat-label">pts</div></div>' +
-      '<div class="stat"><div class="stat-val exactos">' + p.exactos + '</div><div class="stat-label">exactos</div></div>' +
-    '</div>' +
+    '<div class="card-stats">' + statsHtml + '</div>' +
     '<button class="fav-btn" onclick="toggleFavorite(\'' + safeName + '\')">' + starIcon + '</button>' +
     '</div></div>';
 }
@@ -659,6 +694,21 @@ function renderFavorites() {
   favResults.innerHTML = favParticipants.map(function(p) { return buildCard(p, ''); }).join('');
 }
 
+
+// VIEW MODE SWITCH
+var btnPuntos = document.getElementById('btn-puntos');
+var btnGanador = document.getElementById('btn-ganador');
+
+function setViewMode(mode) {
+  VIEW_MODE = mode;
+  btnPuntos.classList.toggle('active', mode === 'puntos');
+  btnGanador.classList.toggle('active', mode === 'ganador');
+  render(searchEl.value.trim());
+  renderFavorites();
+}
+btnPuntos.addEventListener('click', function(){ setViewMode('puntos'); });
+btnGanador.addEventListener('click', function(){ setViewMode('ganador'); });
+
 const searchEl = document.getElementById('search');
 const clearBtn = document.getElementById('clear-btn');
 const noResults = document.getElementById('no-results');
@@ -672,16 +722,27 @@ function vibrate() {
   void resultsEl.offsetWidth;
   resultsEl.classList.add('vibrate');
 }
+function getAcierto(p) {
+  var soloGanador = p.puntos - 4 * p.exactos;
+  return soloGanador + p.exactos;
+}
+
 function render(q) {
   clearBtn.style.display = q ? 'block' : 'none';
   const nq = normalize(q);
-  const found = q ? participants.filter(p => normalize(p.nombre).includes(nq)) : participants;
+  var found = q ? participants.filter(p => normalize(p.nombre).includes(nq)) : participants.slice();
   if (found.length === 0) {
     noResults.style.display = 'block';
     noResultsText.innerHTML = 'No se encontró <strong>"'+q+'"</strong>';
     resultCount.textContent = '';
     resultsEl.innerHTML = '';
     return;
+  }
+  // Si modo acierto, ordenar por % acierto de mayor a menor
+  if (VIEW_MODE === 'ganador') {
+    found = found.slice().sort(function(a, b) {
+      return getAcierto(b) - getAcierto(a);
+    });
   }
   noResults.style.display = 'none';
   resultCount.textContent = q
