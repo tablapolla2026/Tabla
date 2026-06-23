@@ -662,13 +662,32 @@ function highlight(nombre, q) {
 var VIEW_MODE = 'puntos';
 var PARTIDOS_JUGADOS = 44;
 
+function getPagina(p) {
+  var idx = participants.indexOf(p);
+  if (idx <= 84)  return 'pág 1';
+  if (idx <= 168) return 'pág 2';
+  return 'pág 3';
+}
+
 function buildCard(p, q) {
   var bg = getBg(p.pos);
   var medal = getMedal(p.pos);
-  var badgeContent = medal
-    ? '<span class="medal">' + medal + '</span><span class="pos-num-sm">#' + p.pos + '</span>'
-    : '<span class="pos-num">#' + p.pos + '</span>';
-  var badgeClass = medal ? 'pos-badge' : 'pos-badge no-medal';
+  var pagina = getPagina(p);
+  var otraPos = otraTablaRanking[p.nombre] || '?';
+
+  var badgeContent, badgeClass;
+  if (VIEW_MODE === 'puntos') {
+    badgeContent = medal
+      ? '<span class="medal">' + medal + '</span><span class="pos-num-sm">#' + p.pos + '</span><span style="font-size:8px;color:#aaa;margin-top:1px">' + pagina + '</span>'
+      : '<span class="pos-num">#' + p.pos + '</span><span style="font-size:8px;color:#aaa;margin-top:2px">' + pagina + '</span>';
+    badgeClass = medal ? 'pos-badge' : 'pos-badge no-medal';
+  } else {
+    badgeContent = medal
+      ? '<span class="medal">' + medal + '</span><span class="pos-num-sm">#' + p.pos + '</span><span style="font-size:9px;color:#f0c040;margin-top:1px;font-weight:700">☠️' + otraPos + '</span>'
+      : '<span class="pos-num">#' + p.pos + '</span><span style="font-size:9px;color:#f0c040;margin-top:2px;font-weight:700">☠️' + otraPos + '</span>';
+    badgeClass = medal ? 'pos-badge' : 'pos-badge no-medal';
+  }
+
   var isFav = getFavorites().includes(p.nombre);
   var starIcon = isFav ? '⭐' : '☆';
   var safeName = p.nombre.replace(/'/g, "\\'");
@@ -768,6 +787,19 @@ function getAcierto(p) {
   var soloGanador = p.puntos - 4 * p.exactos;
   return soloGanador + p.exactos;
 }
+
+// Precalcular ranking "La otra tabla" (por acierto, mayor a menor)
+var otraTablaRanking = {};
+(function() {
+  var sorted = participants.slice().sort(function(a, b) {
+    return getAcierto(b) - getAcierto(a);
+  });
+  var rank = 1;
+  for (var i = 0; i < sorted.length; i++) {
+    if (i > 0 && getAcierto(sorted[i]) < getAcierto(sorted[i-1])) rank = i + 1;
+    otraTablaRanking[sorted[i].nombre] = rank;
+  }
+})();
 
 function render(q) {
   clearBtn.style.display = q ? 'block' : 'none';
