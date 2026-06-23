@@ -299,25 +299,25 @@
 
     <div style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,100,100,0.4); border-radius:10px; padding:7px 6px; text-align:center; display:flex; flex-direction:column;">
       <div style="height:28px; display:flex; align-items:center; justify-content:center;">
-        <div style="font-size:9px; color:#ff9090; text-transform:uppercase; letter-spacing:1px; line-height:1.2;">⚽ Portugal vs Uzbekistán</div>
+        <div id="cd1-title" style="font-size:9px; color:#ff9090; text-transform:uppercase; letter-spacing:1px; line-height:1.2;"></div>
       </div>
-      <div style="font-size:9px; color:#888; margin-bottom:4px;">23 Jun · 13:00</div>
-      <div id="countdown-portugal" style="color:#f0f0f0;">...</div>
+      <div id="cd1-fecha" style="font-size:9px; color:#888; margin-bottom:4px;"></div>
+      <div id="countdown-1" style="color:#f0f0f0;">...</div>
     </div>
 
     <div style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(124,200,255,0.4); border-radius:10px; padding:7px 6px; text-align:center; display:flex; flex-direction:column;">
       <div style="height:28px; display:flex; align-items:center; justify-content:center;">
-        <div style="font-size:9px; color:#7cc8ff; text-transform:uppercase; letter-spacing:1px; line-height:1.2;">🛸 Escocia vs Brasil</div>
+        <div id="cd2-title" style="font-size:9px; color:#7cc8ff; text-transform:uppercase; letter-spacing:1px; line-height:1.2;"></div>
       </div>
-      <div style="font-size:9px; color:#888; margin-bottom:4px;">24 Jun · 18:00</div>
-      <div id="countdown-escocia" style="color:#f0f0f0;">...</div>
+      <div id="cd2-fecha" style="font-size:9px; color:#888; margin-bottom:4px;"></div>
+      <div id="countdown-2" style="color:#f0f0f0;">...</div>
     </div>
 
     <div style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,200,0,0.4); border-radius:10px; padding:7px 6px; text-align:center; display:flex; flex-direction:column;">
       <div style="height:28px; display:flex; align-items:center; justify-content:center;">
-        <div style="font-size:9px; color:#f0c040; text-transform:uppercase; letter-spacing:1px; line-height:1.2;">🏆 Final</div>
+        <div id="cd3-title" style="font-size:9px; color:#f0c040; text-transform:uppercase; letter-spacing:1px; line-height:1.2;"></div>
       </div>
-      <div style="font-size:9px; color:#888; margin-bottom:4px;">19 Jul · 15:00</div>
+      <div id="cd3-fecha" style="font-size:9px; color:#888; margin-bottom:4px;"></div>
       <div id="countdown-display" style="color:#f0f0f0;">...</div>
     </div>
 
@@ -830,6 +830,28 @@ clearBtn.addEventListener('click', function(){ searchEl.value=''; render(''); se
 render('');
 renderFavorites();
 
+// ── COLA DE PARTIDOS ─────────────────────────────────────────────
+// Slot 1 (rojo): partidos más próximos
+// Slot 2 (azul): partidos intermedios
+// Slot 3 (dorado): siempre la Final
+var PARTIDOS_SLOTS = [
+  // Slot 1
+  [
+    { label:'⚽ Portugal vs Uzbekistán', fecha:'23 Jun · 13:00', dt:'2026-06-23T13:00:00' },
+    { label:'⚽ Inglaterra vs Ghana',    fecha:'23 Jun · 16:00', dt:'2026-06-23T16:00:00' },
+    { label:'⚽ Panamá vs Croacia',      fecha:'23 Jun · 19:00', dt:'2026-06-23T19:00:00' },
+    { label:'⚽ Colombia vs R.D. Congo', fecha:'23 Jun · 22:00', dt:'2026-06-23T22:00:00' },
+  ],
+  // Slot 2
+  [
+    { label:'🛸 Escocia vs Brasil',      fecha:'24 Jun · 18:00', dt:'2026-06-24T18:00:00' },
+  ],
+  // Slot 3 (Final — siempre fijo)
+  [
+    { label:'🏆 Final',                  fecha:'19 Jul · 15:00', dt:'2026-07-19T15:00:00' },
+  ],
+];
+
 function cdFormat(diff, colorDias) {
   if (diff <= 0) return null;
   var days    = Math.floor(diff / (1000*60*60*24));
@@ -844,28 +866,57 @@ function cdFormat(diff, colorDias) {
   return html;
 }
 
-function updateCountdown() {
-  var el = document.getElementById('countdown-display');
-  if (!el) return;
-  var diff = new Date('2026-07-19T15:00:00') - new Date();
-  el.innerHTML = diff <= 0 ? '🎉 ¡Hoy es la Final!' : cdFormat(diff, '#f0c040');
-}
-function updateCountdownEscocia() {
-  var el = document.getElementById('countdown-escocia');
-  if (!el) return;
-  var diff = new Date('2026-06-24T18:00:00') - new Date();
-  el.innerHTML = diff <= 0 ? '¡Partido en curso!' : cdFormat(diff, '#7cc8ff');
-}
-function updateCountdownPortugal() {
-  var el = document.getElementById('countdown-portugal');
-  if (!el) return;
-  var diff = new Date('2026-06-23T13:00:00') - new Date();
-  el.innerHTML = diff <= 0 ? '⚽ ¡Partido en curso!' : cdFormat(diff, '#ff9090');
+var SLOT_COLORS = ['#ff9090', '#7cc8ff', '#f0c040'];
+var SLOT_IDS    = [
+  { title:'cd1-title', fecha:'cd1-fecha', cd:'countdown-1' },
+  { title:'cd2-title', fecha:'cd2-fecha', cd:'countdown-2' },
+  { title:'cd3-title', fecha:'cd3-fecha', cd:'countdown-display' },
+];
+
+function updateSlot(slotIdx) {
+  var queue  = PARTIDOS_SLOTS[slotIdx];
+  var ids    = SLOT_IDS[slotIdx];
+  var color  = SLOT_COLORS[slotIdx];
+  var now    = new Date();
+
+  // Buscar el primer partido que no haya terminado (aún no ha pasado 90 min desde inicio)
+  var partido = null;
+  for (var i = 0; i < queue.length; i++) {
+    var dt = new Date(queue[i].dt);
+    if (now < new Date(dt.getTime() + 90*60*1000)) { partido = queue[i]; break; }
+  }
+
+  var titleEl = document.getElementById(ids.title);
+  var fechaEl = document.getElementById(ids.fecha);
+  var cdEl    = document.getElementById(ids.cd);
+  if (!titleEl || !fechaEl || !cdEl) return;
+
+  if (!partido) {
+    titleEl.textContent = '✅ Completado';
+    fechaEl.textContent = '';
+    cdEl.innerHTML = '';
+    return;
+  }
+
+  titleEl.textContent = partido.label;
+  fechaEl.textContent = partido.fecha;
+
+  var diff = new Date(partido.dt) - now;
+  if (diff <= 0) {
+    cdEl.innerHTML = '<span style="font-size:11px;color:'+color+'">⚽ En curso</span>';
+  } else {
+    cdEl.innerHTML = cdFormat(diff, color);
+  }
 }
 
-updateCountdown();       setInterval(updateCountdown, 1000);
-updateCountdownEscocia(); setInterval(updateCountdownEscocia, 1000);
-updateCountdownPortugal(); setInterval(updateCountdownPortugal, 1000);
+function updateAllCountdowns() {
+  updateSlot(0);
+  updateSlot(1);
+  updateSlot(2);
+}
+
+updateAllCountdowns();
+setInterval(updateAllCountdowns, 1000);
 
 </script>
 </body>
