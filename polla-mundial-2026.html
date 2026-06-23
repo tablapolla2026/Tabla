@@ -294,6 +294,29 @@
   <div class="header-title">POLLA MUNDIAL 2026</div>
   <div class="header-update">🕐 Actualizado: Jordania 1-2 Argelia · 23 Jun 2026 · 06:10 hrs Chile</div>
 
+  <!-- CONTADORES DE PARTIDOS -->
+  <div style="display:flex; gap:6px; max-width:420px; margin:10px auto 0;">
+
+    <div style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,200,0,0.4); border-radius:10px; padding:7px 6px; text-align:center;">
+      <div style="font-size:9px; color:#f0c040; text-transform:uppercase; letter-spacing:1px;">🏆 Final</div>
+      <div style="font-size:9px; color:#888; margin-bottom:4px;">19 Jul · 15:00</div>
+      <div id="countdown-display" style="color:#f0f0f0;">...</div>
+    </div>
+
+    <div style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(124,200,255,0.4); border-radius:10px; padding:7px 6px; text-align:center;">
+      <div style="font-size:9px; color:#7cc8ff; text-transform:uppercase; letter-spacing:1px;">🛸 Escocia vs Brasil</div>
+      <div style="font-size:9px; color:#888; margin-bottom:4px;">24 Jun · 18:00</div>
+      <div id="countdown-escocia" style="color:#f0f0f0;">...</div>
+    </div>
+
+    <div style="flex:1; background:rgba(0,0,0,0.4); border:1px solid rgba(255,100,100,0.4); border-radius:10px; padding:7px 6px; text-align:center;">
+      <div style="font-size:9px; color:#ff9090; text-transform:uppercase; letter-spacing:1px;">⚽ Portugal vs Uzbekistán</div>
+      <div style="font-size:9px; color:#888; margin-bottom:4px;">23 Jun · 13:00</div>
+      <div id="countdown-portugal" style="color:#f0f0f0;">...</div>
+    </div>
+
+  </div>
+
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input type="text" id="search" placeholder="Busca tu nombre...">
@@ -768,6 +791,43 @@ searchEl.addEventListener('input', function(){ render(this.value.trim()); });
 clearBtn.addEventListener('click', function(){ searchEl.value=''; render(''); searchEl.focus(); });
 render('');
 renderFavorites();
+
+function cdFormat(diff, colorDias) {
+  if (diff <= 0) return null;
+  var days    = Math.floor(diff / (1000*60*60*24));
+  var hours   = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  var minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+  var seconds = Math.floor((diff % (1000*60)) / 1000);
+  var html = '';
+  if (days > 0) html += '<span style="font-size:22px;font-weight:900;color:'+colorDias+'">'+days+'</span><span style="color:#888;font-size:10px"> d </span>';
+  html += '<span style="font-size:18px;font-weight:700;color:#fff">'+hours+'</span><span style="color:#888;font-size:10px">h </span>';
+  html += '<span style="font-size:18px;font-weight:700;color:#fff">'+minutes+'</span><span style="color:#888;font-size:10px">m </span>';
+  html += '<span style="font-size:16px;font-weight:700;color:#aaa">'+seconds+'</span><span style="color:#888;font-size:10px">s</span>';
+  return html;
+}
+
+function updateCountdown() {
+  var el = document.getElementById('countdown-display');
+  if (!el) return;
+  var diff = new Date('2026-07-19T15:00:00') - new Date();
+  el.innerHTML = diff <= 0 ? '🎉 ¡Hoy es la Final!' : cdFormat(diff, '#f0c040');
+}
+function updateCountdownEscocia() {
+  var el = document.getElementById('countdown-escocia');
+  if (!el) return;
+  var diff = new Date('2026-06-24T18:00:00') - new Date();
+  el.innerHTML = diff <= 0 ? '¡Partido en curso!' : cdFormat(diff, '#7cc8ff');
+}
+function updateCountdownPortugal() {
+  var el = document.getElementById('countdown-portugal');
+  if (!el) return;
+  var diff = new Date('2026-06-23T13:00:00') - new Date();
+  el.innerHTML = diff <= 0 ? '⚽ ¡Partido en curso!' : cdFormat(diff, '#ff9090');
+}
+
+updateCountdown();       setInterval(updateCountdown, 1000);
+updateCountdownEscocia(); setInterval(updateCountdownEscocia, 1000);
+updateCountdownPortugal(); setInterval(updateCountdownPortugal, 1000);
 
 </script>
 </body>
