@@ -835,37 +835,30 @@ renderFavorites();
 // Slot 2 (azul): partidos intermedios
 // Slot 3 (dorado): siempre la Final
 var PARTIDOS_SLOTS = [
-  // Slot 1 (rojo)
+  // Slot 1 (rojo) — partidos 1°, 3°, 5°... en orden cronológico
   [
     { label:'⚽ Portugal vs Uzbekistán',    fecha:'23 Jun · 13:00', dt:'2026-06-23T13:00:00' },
-    { label:'⚽ Inglaterra vs Ghana',       fecha:'23 Jun · 16:00', dt:'2026-06-23T16:00:00' },
     { label:'⚽ Panamá vs Croacia',         fecha:'23 Jun · 19:00', dt:'2026-06-23T19:00:00' },
-    { label:'⚽ Colombia vs R.D. Congo',    fecha:'23 Jun · 22:00', dt:'2026-06-23T22:00:00' },
     { label:'⚽ Suiza vs Canadá',           fecha:'24 Jun · 15:00', dt:'2026-06-24T15:00:00' },
-    { label:'⚽ Bosnia vs Qatar',           fecha:'24 Jun · 15:00', dt:'2026-06-24T15:00:00' },
+    { label:'⚽ Escocia vs Brasil',         fecha:'24 Jun · 18:00', dt:'2026-06-24T18:00:00' },
     { label:'⚽ Sudáfrica vs Corea del Sur',fecha:'24 Jun · 21:00', dt:'2026-06-24T21:00:00' },
-    { label:'⚽ Rep. Checa vs México',      fecha:'24 Jun · 21:00', dt:'2026-06-24T21:00:00' },
     { label:'⚽ Ecuador vs Alemania',       fecha:'25 Jun · 16:00', dt:'2026-06-25T16:00:00' },
-    { label:'⚽ Japón vs Suecia',           fecha:'25 Jun · 19:00', dt:'2026-06-25T19:00:00' },
     { label:'⚽ Turquía vs Estados Unidos', fecha:'25 Jun · 22:00', dt:'2026-06-25T22:00:00' },
-    { label:'⚽ Noruega vs Francia',        fecha:'26 Jun · 15:00', dt:'2026-06-26T15:00:00' },
     { label:'⚽ Uruguay vs España',         fecha:'26 Jun · 20:00', dt:'2026-06-26T20:00:00' },
-    { label:'⚽ Nueva Zelanda vs Bélgica',  fecha:'26 Jun · 23:00', dt:'2026-06-26T23:00:00' },
     { label:'⚽ Panamá vs Inglaterra',      fecha:'27 Jun · 17:00', dt:'2026-06-27T17:00:00' },
-    { label:'⚽ Colombia vs Portugal',      fecha:'27 Jun · 19:30', dt:'2026-06-27T19:30:00' },
     { label:'⚽ Jordania vs Argentina',     fecha:'27 Jun · 22:00', dt:'2026-06-27T22:00:00' },
   ],
-  // Slot 2 (azul)
+  // Slot 2 (azul) — partidos 2°, 4°, 6°... en orden cronológico
   [
+    { label:'⚽ Inglaterra vs Ghana',       fecha:'23 Jun · 16:00', dt:'2026-06-23T16:00:00' },
+    { label:'⚽ Colombia vs R.D. Congo',    fecha:'23 Jun · 22:00', dt:'2026-06-23T22:00:00' },
+    { label:'⚽ Bosnia vs Qatar',           fecha:'24 Jun · 15:00', dt:'2026-06-24T15:00:00' },
     { label:'⚽ Marruecos vs Haití',        fecha:'24 Jun · 18:00', dt:'2026-06-24T18:00:00' },
-    { label:'⚽ Túnez vs Países Bajos',     fecha:'25 Jun · 19:00', dt:'2026-06-25T19:00:00' },
-    { label:'⚽ Turquía vs Estados Unidos', fecha:'25 Jun · 22:00', dt:'2026-06-25T22:00:00' },
+    { label:'⚽ Rep. Checa vs México',      fecha:'24 Jun · 21:00', dt:'2026-06-24T21:00:00' },
+    { label:'⚽ Japón vs Suecia',           fecha:'25 Jun · 19:00', dt:'2026-06-25T19:00:00' },
     { label:'⚽ Noruega vs Francia',        fecha:'26 Jun · 15:00', dt:'2026-06-26T15:00:00' },
-    { label:'⚽ Uruguay vs España',         fecha:'26 Jun · 20:00', dt:'2026-06-26T20:00:00' },
     { label:'⚽ Nueva Zelanda vs Bélgica',  fecha:'26 Jun · 23:00', dt:'2026-06-26T23:00:00' },
-    { label:'⚽ Panamá vs Inglaterra',      fecha:'27 Jun · 17:00', dt:'2026-06-27T17:00:00' },
     { label:'⚽ Colombia vs Portugal',      fecha:'27 Jun · 19:30', dt:'2026-06-27T19:30:00' },
-    { label:'⚽ Jordania vs Argentina',     fecha:'27 Jun · 22:00', dt:'2026-06-27T22:00:00' },
   ],
   // Slot 3 (dorado — Final)
   [
